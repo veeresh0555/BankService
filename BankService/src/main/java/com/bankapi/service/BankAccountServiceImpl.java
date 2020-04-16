@@ -80,6 +80,15 @@ public class BankAccountServiceImpl implements BankAccountService {
 
 	@Override
 	public Customerdetails findtransReq(TransRequest transreq) throws RecordsNotFoundException  {
+		System.out.println("Enter BankAccountServiceImpl: ***********");
+		System.out.println("TransReq: "+transreq.getTransid()
+		+"\t fromMobile: "+transreq.getFrmmobilenumber()
+		+"\t toMobile: "+transreq.getTomobilenumber()
+		+"\t amount: "+transreq.getAmount()
+		+"\t comment: "+transreq.getComment()
+		+"\t transDate: "+transreq.getTransdate()
+				);
+		
 		Optional<Customerdetails> fromac=crepository.findcustomerByMobileNo(transreq.getFrmmobilenumber());
 		if(fromac.isPresent()) {
 			System.out.println("From Mobile Number/Cid prasent");
@@ -98,13 +107,23 @@ public class BankAccountServiceImpl implements BankAccountService {
 				tobankac.stream().forEach(toblst->toba.setBalance(toblst.getBalance()));//getbalance to mobile number
 				//frba.setBalance(transreq.getAmount());
 				bankac.stream().forEach(fromlist->fromlist.setBalance(frba.getBalance()-transreq.getAmount()));
+				bankac.forEach(bac->System.out.println("\fromAc: "+bac.getAcno()+"\t Balance: "+bac.getBalance()));
 				
+				Customerdetails finalcdet1=new Customerdetails();
+				finalcdet1.setBaccounts(bankac);
+				crepository.save(finalcdet1);
+				
+				Customerdetails finalcdet2=new Customerdetails();
 				tobankac.stream().forEach(toblist->toblist.setBalance(toba.getBalance()+transreq.getAmount()));
-				Customerdetails finalcdet=new Customerdetails();
-				finalcdet.setBaccounts(bankac);
-				finalcdet.setBaccounts(tobankac);
-				finalcdet=crepository.save(finalcdet);
-				return finalcdet; 
+				tobankac.forEach(bc->System.out.println("\t toAc: "+bc.getAcno()+"\t Balance: "+bc.getBalance()));
+				crepository.save(finalcdet2);
+				
+				
+				
+				
+				//finalcdet2.setBaccounts(tobankac);
+				
+				return finalcdet2; 
 			}else {
 				throw new RecordsNotFoundException("Insufficiant Amount in from account");	
 			}	

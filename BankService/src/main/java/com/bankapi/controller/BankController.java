@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,7 +61,15 @@ public class BankController {
 	}
 	
 	@PostMapping("/checktransreq")//@RequestBody 
-	public ResponseEntity<Customerdetails> checktransRequest(TransRequest transreq) throws RecordsNotFoundException {
+	public ResponseEntity<Customerdetails> checktransRequest(@RequestBody TransRequest transreq) throws RecordsNotFoundException {
+		System.out.println("Enter BankController::: checktransRequest method");
+		System.out.println("TransReq: "+transreq.getTransid()
+		+"\t fromMobile: "+transreq.getFrmmobilenumber()
+		+"\t toMobile: "+transreq.getTomobilenumber()
+		+"\t amount: "+transreq.getAmount()
+		+"\t comment: "+transreq.getComment()
+		+"\t transDate: "+transreq.getTransdate()
+				);
 		Customerdetails bankacc=bservice.findtransReq(transreq);
 		return new ResponseEntity<Customerdetails>(bankacc,new HttpHeaders(),HttpStatus.OK);
 	}

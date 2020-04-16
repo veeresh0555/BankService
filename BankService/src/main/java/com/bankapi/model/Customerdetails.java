@@ -25,23 +25,14 @@ public class Customerdetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long cid;
 	
-
 	private String cname;
 	
 	
-	private String mobileno;
+	private long mobileno;
 	
 	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<BankAccounts> baccounts;
-
-	public long getCid() {
-		return cid;
-	}
-
-	public void setCid(long cid) {
-		this.cid = cid;
-	}
 
 	public String getCname() {
 		return cname;
@@ -51,11 +42,11 @@ public class Customerdetails {
 		this.cname = cname;
 	}
 
-	public String getMobileno() {
+	public long getMobileno() {
 		return mobileno;
 	}
 
-	public void setMobileno(String mobileno) {
+	public void setMobileno(long mobileno) {
 		this.mobileno = mobileno;
 	}
 
@@ -65,6 +56,14 @@ public class Customerdetails {
 
 	public void setBaccounts(List<BankAccounts> baccounts) {
 		this.baccounts = baccounts;
+	}
+
+	public long getCid() {
+		return cid;
+	}
+
+	public void setCid(long cid) {
+		this.cid = cid;
 	}
 	
 	

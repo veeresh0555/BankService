@@ -11,9 +11,8 @@ import com.bankapi.model.Customerdetails;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customerdetails, Long> {
-
 	
-	@Query("select cid from Customerdetails ac where mobileno=:mobileno")
+	@Query("select ac from Customerdetails ac where ac.mobileno=:mobileno")
 	public Optional<Customerdetails> findcustomerByMobileNo(@Param("mobileno") long mobileno); 
 	
 	
